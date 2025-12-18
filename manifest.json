@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Time Sync - NTP Clock",
+  "name": "Bob's Time - NTP Clock",
   "version": "1.2.0",
   "description": "Synchronize and display accurate time from multiple NTP servers (NIST, Google, WorldTimeAPI). Perfect for time-sensitive tasks.",
   "author": "Ryujin The Dev",
@@ -44,5 +44,6 @@
 
   "minimum_chrome_version": "88"
 }
+
 
 
