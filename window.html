@@ -1,0 +1,431 @@
+<!-- =============================================== -->
+<!-- File: window.html -->
+<!-- =============================================== -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>TimeStamps</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                width: 400px;
+                height: 150px;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+                background: #f8f9fa;
+                /* padding: 2px; */
+
+                /* Mencegah scrollbar muncul */
+                overflow: hidden;
+                user-select: none;
+            }
+
+            /* Detach Button Container */
+            .detach-container {
+                display: flex;
+                justify-content: flex-end;
+                padding: 4px 8px;
+            }
+
+            .detach-btn {
+                background: none;
+                border: none;
+                cursor: pointer;
+                padding: 4px 8px;
+                border-radius: 4px;
+                color: #6c757d;
+                font-size: 11px;
+                transition: all 0.2s;
+                display: flex;
+                align-items: center;
+                gap: 4px;
+            }
+
+            .detach-btn:hover {
+                background: #e9ecef;
+                color: #4361ee;
+            }
+
+            .header {
+                padding: 4px 8px 4px 8px;
+            }
+
+            .header h1 {
+                font-size: 14px;
+                font-weight: bold;
+                color: #212529;
+            }
+
+            .main-card {
+                background: white;
+                border: 1px solid #e9ecef;
+                border-radius: 4px;
+                padding: 8px;
+                margin-top: 4px;
+            }
+
+            .content-row {
+                display: flex;
+                gap: 12px;
+            }
+
+            .left-content {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .time-section {
+                margin-bottom: 4px;
+            }
+
+            .time-label {
+                font-size: 9px;
+                color: #6c757d;
+                margin-bottom: 4px;
+            }
+
+            .time-card {
+                background: #000000;
+                border: 1px solid #e9ecef;
+                border-radius: 4px;
+                padding: 8px;
+            }
+
+            .time-display {
+                font-size: 11px;
+                font-weight: bold;
+            }
+
+            .server-time {
+                font-family: sans-serif;
+                color: #00fff2
+            }
+
+            .pc-time {
+                font-family: sans-serif;
+                color: #eeff00;
+            }
+
+            .status {
+                font-size: 11px;
+                color: #6c757d;
+                font-weight: bold;
+                margin-top: 4px;
+            }
+
+            .right-buttons {
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+            }
+
+            button {
+                width: 90px;
+                height: 36px;
+                border-radius: 4px;
+                font-size: 12px;
+                cursor: pointer;
+                border: none;
+                font-weight: 500;
+                transition: all 0.2s;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 4px;
+            }
+
+            .btn-primary {
+                background: #4361ee;
+                color: white;
+            }
+
+            .btn-primary:hover:not(:disabled) {
+                background: #3651d4;
+            }
+
+            .btn-primary:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+
+            .btn-outline {
+                background: white;
+                color: #212529;
+                border: 1px solid #e9ecef;
+            }
+
+            .btn-outline:hover {
+                border-color: #4361ee;
+                color: #4361ee;
+            }
+
+            .btn-success {
+                background: #13cf81;
+                color: white;
+                border: 1px solid #13cf81;
+            }
+
+            .icon {
+                width: 14px;
+                height: 14px;
+            }
+
+            .spinner {
+                animation: spin 1s linear infinite;
+            }
+
+            @keyframes spin {
+                from {
+                    transform: rotate(0deg);
+                }
+
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+
+            /* Modal Styles */
+            .modal-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 1000;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .modal-overlay.active {
+                display: flex;
+            }
+
+            .modal {
+                background: #f8f9fa;
+                border-radius: 8px;
+                width: 400px;
+                margin: 0 8px;
+                max-height: 160px;
+                overflow-y: auto;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            }
+
+            .modal-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 3px 12px;
+                border-bottom: 1px solid #e9ecef;
+            }
+
+            .modal-title h2 {
+                padding: 3px 12px;
+                font-size: 12px;
+                font-weight: bold;
+                color: #212529;
+            }
+
+            .modal-body {
+                padding: 3px 12px;
+                padding: 3px;
+                overflow-y: auto;
+                max-height: 100px;
+            }
+
+            .form-group {
+                margin-bottom: 12px;
+            }
+
+            .form-label {
+                padding: 3px 12px;
+                font-size: 12px;
+                font-weight: bold;
+                color: #212529;
+                margin-bottom: 6px;
+                display: block;
+            }
+
+            input[type="text"],
+            input[type="number"] {
+                width: 100%;
+                padding: 8px 12px;
+                border: 1px solid #e9ecef;
+                border-radius: 4px;
+                font-size: 14px;
+                color: #212529;
+            }
+
+            .close-btn {
+                background: none;
+                border: none;
+                cursor: pointer;
+                width: 32px;
+                height: 32px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .quick-select {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                align-items: center;
+                align-content: center;
+            }
+
+            .quick-select-btn {
+                width: 100px;
+                margin: 2px;
+                font: 12px;
+            }
+
+            .divider {
+                height: 1px;
+                background: #e9ecef;
+                margin: 16px 0;
+            }
+
+            .info-text {
+                font-size: 10px;
+                color: #6c757d;
+                font-style: italic;
+                margin-top: 12px;
+            }
+
+            .save-status {
+                font-size: 12px;
+                color: #4361ee;
+                font-weight: 500;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="detach-container" style="display: none;">
+            <button class="detach-btn" id="detachBtn">
+                Detach
+            </button>
+        </div>
+
+        <div class="main-card">
+            <div class="content-row">
+                <div class="left-content">
+                    <div class="time-section">
+                        <div class="time-label">Server Time</div>
+                        <div class="time-card">
+                            <div class="time-display server-time" id="serverTime">
+                                --:--:-- | Not synchronized yet
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="time-section">
+                        <div class="time-label">Local PC Time</div>
+                        <div class="time-card">
+                            <div class="time-display pc-time" id="pcTime">
+                                --:--:-- | Loading...
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="status" id="status">● Ready to sync</div>
+                </div>
+
+                <div class="right-buttons">
+                    <button class="btn-primary" id="syncBtn">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                        </svg>
+                        <span id="syncBtnText">Sync Now</span>
+                    </button>
+
+                    <button class="btn-outline" id="autoBtn">Auto Sync</button>
+
+                    <button class="btn-outline" id="settingsBtn">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        Settings
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="modalOverlay">
+            <div class="modal">
+                <div class="modal-header">
+                    <div class="modal-title">
+                        <h2>Settings</h2>
+                    </div>
+                    <div class="modal-actions">
+                        <span class="save-status" id="saveStatus"></span>
+                        <button class="close-btn" id="closeModal">
+                            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label">NTP Server Address</label>
+                        <input type="text" id="ntpInput" placeholder="e.g., pool.ntp.org">
+                    </div>
+
+                    <div class="form-label">Reference NTP Servers</div>
+                    <div class="quick-select">
+                        <button class="btn-outline quick-select-btn" data-server="pool.ntp.org">pool.ntp.org</button>
+                        <button class="btn-outline quick-select-btn"
+                            data-server="time.google.com">time.google.com</button>
+                        <button class="btn-outline quick-select-btn" data-server="time.nist.gov">time.nist.gov
+                            (NIST)</button>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="form-group">
+                        <label class="form-label">Auto Sync Interval (seconds)</label>
+                        <input type="number" id="intervalInput" min="10" placeholder="60">
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="form-group">
+                        <label class="form-label" style="display: flex; align-items: center; gap: 8px;">
+                            <input type="checkbox" id="allowFullscreenInput" style="margin: 0;">
+                            Allow Fullscreen / Resizing
+                        </label>
+                    </div>
+
+                    <div class="info-text">
+                        💡 Settings are saved automatically<br>
+                        🌐 Sources: WorldTimeAPI, TimeAPI, Google, NIST (HTTP)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="window.js"></script>
+    </body>
+
+</html>

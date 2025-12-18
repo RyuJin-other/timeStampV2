@@ -1,0 +1,46 @@
+{
+  "manifest_version": 3,
+  "name": "Time Sync - NTP Clock",
+  "version": "1.2.0",
+  "description": "Synchronize and display accurate time from multiple NTP servers (NIST, Google, WorldTimeAPI). Perfect for time-sensitive tasks.",
+  "author": "Ryujin The Dev",
+  "homepage_url": "https://github.com/RyuJin-other/timeStampV2",
+
+  "icons": {
+    "16": "src/icons/clock-24_.png"
+  },
+
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "src/icons/clock-24_.png"
+    },
+    "default_title": "Time Sync - Click to view"
+  },
+
+  "permissions": ["storage"],
+
+  "host_permissions": [
+    "https://worldtimeapi.org/*",
+    "https://timeapi.io/*",
+    "https://www.google.com/*",
+    "https://www.nist.gov/*"
+  ],
+
+  "background": {
+    "service_worker": "background.js"
+  },
+
+  "web_accessible_resources": [
+    {
+      "resources": ["window.html", "window.js"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  },
+
+  "minimum_chrome_version": "88"
+}

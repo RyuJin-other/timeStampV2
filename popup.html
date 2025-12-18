@@ -1,0 +1,466 @@
+<!-- =============================================== -->
+<!-- File: popup.html -->
+<!-- =============================================== -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Time Sync V2</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                width: 400px;
+                min-height: 200px;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+                background: #f8f9fa;
+                padding: 4px;
+                overflow-x: hidden;
+                user-select: none;
+            }
+
+            /* Detach Button */
+            .detach-container {
+                display: flex;
+                justify-content: flex-end;
+                padding: 4px 8px;
+            }
+
+            .detach-btn {
+                background: #dadcdd;
+                border: none;
+                cursor: pointer;
+                padding: 4px 8px;
+                border-radius: 6px;
+                color: #000000;
+                font: 12px bold;
+                transition: all 0.2s;
+                display: flex;
+                align-items: center;
+                gap: 4px;
+            }
+
+            .detach-btn:hover {
+                background: #222121;
+                font: 12px bold;
+                color: #88ff00;
+            }
+
+            .header {
+                padding: 4px 8px 4px 8px;
+            }
+
+            .header h1 {
+                font-size: 14px;
+                font-weight: bold;
+                color: #212529;
+            }
+
+            .main-card {
+                background: white;
+                border: 1px solid #e9ecef;
+                border-radius: 4px;
+                padding: 8px;
+                margin-top: 4px;
+            }
+
+            .content-row {
+                display: flex;
+                gap: 12px;
+            }
+
+            .left-content {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .time-section {
+                margin-bottom: 4px;
+            }
+
+            .time-label {
+                font-size: 9px;
+                color: #6c757d;
+                margin-bottom: 4px;
+            }
+
+            .time-card {
+                background: #242525;
+                border: 1px solid #e9ecef;
+                border-radius: 4px;
+                padding: 8px;
+            }
+
+            .time-display {
+                font-size: 11px;
+                font-weight: bold;
+            }
+
+            .server-time {
+                font-family: sans-serif;
+                color: #00fff2
+            }
+
+            .pc-time {
+                font-family: sans-serif;
+                color: #eeff00;
+            }
+
+            .status {
+                font-size: 9px;
+                color: #6c757d;
+                margin-top: 4px;
+            }
+
+            .right-buttons {
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+            }
+
+            button {
+                width: 90px;
+                height: 36px;
+                border-radius: 4px;
+                font-size: 12px;
+                cursor: pointer;
+                border: none;
+                font-weight: 500;
+                transition: all 0.2s;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 4px;
+            }
+
+            .btn-primary {
+                background: #4361ee;
+                color: white;
+            }
+
+            .btn-primary:hover:not(:disabled) {
+                background: #3651d4;
+            }
+
+            .btn-primary:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+
+            .btn-outline {
+                background: white;
+                color: #212529;
+                border: 1px solid #e9ecef;
+            }
+
+            .btn-outline:hover {
+                border-color: #4361ee;
+                color: #4361ee;
+            }
+
+            .btn-success {
+                background: #13cf81;
+                color: white;
+                border: 1px solid #13cf81;
+            }
+
+            .icon {
+                width: 14px;
+                height: 14px;
+            }
+
+            .spinner {
+                animation: spin 1s linear infinite;
+            }
+
+            @keyframes spin {
+                from {
+                    transform: rotate(0deg);
+                }
+
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+
+            /* Settings Modal */
+            .modal-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 1000;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .modal-overlay.active {
+                display: flex;
+            }
+
+            .modal {
+                background: #f8f9fa;
+                border-radius: 8px;
+                width: 360px;
+                max-height: 160px;
+                overflow-y: auto;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            }
+
+            .modal-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 12px;
+                border-bottom: 1px solid #e9ecef;
+            }
+
+            .modal-title {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .modal-title h2 {
+                font-size: 18px;
+                font-weight: bold;
+                color: #212529;
+            }
+
+            .modal-actions {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .save-status {
+                font-size: 12px;
+                color: #4361ee;
+                font-weight: 500;
+            }
+
+            .close-btn {
+                width: 32px;
+                height: 32px;
+                background: none;
+                border: none;
+                cursor: pointer;
+                color: #212529;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 4px;
+                transition: all 0.2s;
+            }
+
+            .close-btn:hover {
+                background: #e9ecef;
+                color: #4361ee;
+            }
+
+            .modal-body {
+                padding: 12px;
+            }
+
+            .form-group {
+                margin-bottom: 12px;
+            }
+
+            .form-label {
+                font-size: 12px;
+                font-weight: bold;
+                color: #212529;
+                margin-bottom: 6px;
+                display: block;
+            }
+
+            input[type="text"],
+            input[type="number"] {
+                width: 100%;
+                padding: 8px 12px;
+                border: 1px solid #e9ecef;
+                border-radius: 4px;
+                font-size: 14px;
+                color: #212529;
+                transition: border-color 0.2s;
+            }
+
+            input[type="text"]:focus,
+            input[type="number"]:focus {
+                outline: none;
+                border-color: #4361ee;
+            }
+
+            input[type="number"] {
+                width: 200px;
+            }
+
+            .quick-select {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                align-items: center;
+                align-content: center;
+            }
+
+            .quick-select-btn {
+                width: 100px;
+                margin: 2px;
+                font: 12px;
+            }
+
+            .info-text {
+                font-size: 10px;
+                color: #6c757d;
+                font-style: italic;
+                margin-top: 12px;
+            }
+
+            .divider {
+                height: 1px;
+                background: #e9ecef;
+                margin: 16px 0;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="detach-container">
+            <button class="detach-btn" id="detachBtn" title="Open in separate window">
+                <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+                Detach
+            </button>
+        </div>
+
+        <!-- <div class="header">
+            <h1>Time Synchronization</h1>
+        </div> -->
+
+        <div class="main-card">
+            <div class="content-row">
+                <div class="left-content">
+                    <!-- Server Time -->
+                    <div class="time-section">
+                        <div class="time-label">Server Time ( UTC )</div>
+                        <div class="time-card">
+                            <div class="time-display server-time" id="serverTime">
+                                --:--:-- | Not synchronized yet
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PC Time -->
+                    <div class="time-section">
+                        <div class="time-label">Local PC Time</div>
+                        <div class="time-card">
+                            <div class="time-display pc-time" id="pcTime">
+                                --:--:-- | Loading...
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Status -->
+                    <div class="status" id="status">● Ready to sync</div>
+                </div>
+
+                <div class="right-buttons">
+                    <button class="btn-primary" id="syncBtn">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                        </svg>
+                        <span id="syncBtnText">Sync Now</span>
+                    </button>
+
+                    <button class="btn-outline" id="autoBtn">Auto Sync</button>
+
+                    <button class="btn-outline" id="settingsBtn">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        Settings
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Modal -->
+        <div class="modal-overlay" id="modalOverlay">
+            <div class="modal">
+                <div class="modal-header">
+                    <div class="modal-title">
+                        <svg width="24" height="24" fill="none" stroke="#4361ee" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        <h4>Settings</h4>
+                    </div>
+                    <div class="modal-actions">
+                        <span class="save-status" id="saveStatus"></span>
+                        <button class="close-btn" id="closeModal">
+                            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label">NTP Server Address</label>
+                        <input type="text" id="ntpInput" placeholder="e.g., pool.ntp.org">
+
+                    </div>
+
+                    <div class="form-label">Reference NTP Servers</div>
+                    <div class="quick-select">
+                        <button class="btn-outline quick-select-btn" data-server="pool.ntp.org">pool.ntp.org</button>
+                        <button class="btn-outline quick-select-btn"
+                            data-server="time.google.com">time.google.com</button>
+                        <button class="btn-outline quick-select-btn"
+                            data-server="time.windows.com">time.windows.com</button>
+                        <!-- <button class="btn-outline quick-select-btn"
+                            data-server="id.pool.ntp.org">id.pool.ntp.org</button> -->
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="form-group">
+                        <label class="form-label">Auto Sync Interval (seconds)</label>
+                        <input type="number" id="intervalInput" min="10" placeholder="60">
+                    </div>
+
+                    <div class="info-text">
+                        💡 Settings are saved automatically<br>
+                        🌐 Time sync uses: WorldTimeAPI → TimeAPI.io → HTTP Headers
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="popup.js"></script>
+    </body>
+
+</html>
