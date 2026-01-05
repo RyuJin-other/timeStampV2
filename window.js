@@ -554,7 +554,7 @@ updateClock();
 setTimeout(() => syncNow(true), 500);
 
 // Resize lock - conditional based on allowFullscreen setting
-const FIXED_WIDTH = 420;
+const FIXED_WIDTH = 370;
 const FIXED_HEIGHT = 190; // Changed to 150px
 
 let resizeCheckInterval = null;
@@ -584,3 +584,4 @@ debugLog("Window initialized", {
     ? "disabled"
     : `${FIXED_WIDTH}x${FIXED_HEIGHT}`,
 });
+
