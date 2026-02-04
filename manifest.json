@@ -1,24 +1,30 @@
 {
   "manifest_version": 3,
-  "name": "Bob's Time - NTP Clock",
-  "version": "1.2.0",
+  "name": "Time Sync - NTP Clock",
+  "version": "1.2.1",
   "description": "Synchronize and display accurate time from multiple NTP servers (NIST, Google, WorldTimeAPI). Perfect for time-sensitive tasks.",
-  "author": "Ryujin The Dev",
+  "author": "A.res.t",
   "homepage_url": "https://github.com/RyuJin-other/timeStampV2",
 
   "icons": {
-    "16": "src/icons/clock-24_.png"
+    "128": "src/icons/DarkMode/icon_128.png",
+    "64": "src/icons/DarkMode/icon_64.png",
+    "32": "src/icons/DarkMode/icon_32.png",
+    "16": "src/icons/DarkMode/icon_16.png"
   },
 
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
-      "16": "src/icons/clock-24_.png"
+      "128": "src/icons/DarkMode/icon_128.png",
+      "64": "src/icons/DarkMode/icon_64.png",
+      "32": "src/icons/DarkMode/icon_32.png",
+      "16": "src/icons/DarkMode/icon_16.png"
     },
-    "default_title": "Time Sync - Click to view"
+    "default_title": "Time Sync - NTP Clock"
   },
 
-  "permissions": ["storage"],
+  "permissions": ["storage","alarms"],
 
   "host_permissions": [
     "https://worldtimeapi.org/*",

@@ -7,8 +7,8 @@ const browserAPI =
   typeof chrome !== "undefined" && chrome.runtime
     ? chrome
     : typeof browser !== "undefined" && browser.runtime
-    ? browser
-    : null;
+      ? browser
+      : null;
 
 // Debug mode - SET TO FALSE FOR PRODUCTION
 const DEBUG = false;
@@ -156,7 +156,7 @@ function loadSettings() {
           result.syncInterval,
           MIN_INTERVAL,
           MAX_INTERVAL,
-          60
+          60,
         );
 
         state.allowFullscreen = result.allowFullscreen === true;
@@ -165,7 +165,7 @@ function loadSettings() {
         elements.intervalInput.value = state.syncInterval;
         elements.allowFullscreenInput.checked = state.allowFullscreen;
         toggleResizeLock();
-      }
+      },
     );
 
     browserAPI.storage.onChanged.addListener((changes, area) => {
@@ -178,7 +178,7 @@ function loadSettings() {
             changes.syncInterval.newValue,
             MIN_INTERVAL,
             MAX_INTERVAL,
-            60
+            60,
           );
         }
         if (changes.allowFullscreen !== undefined) {
@@ -283,7 +283,7 @@ function updateClock() {
   if (state.timeOffset !== null && state.lastSync !== null) {
     const elapsed = (now - state.lastSync) / 1000;
     const serverTime = new Date(
-      state.lastSync.getTime() + (elapsed + state.timeOffset) * 1000
+      state.lastSync.getTime() + (elapsed + state.timeOffset) * 1000,
     );
     elements.serverTime.textContent = formatTimeUTC(serverTime);
   }
@@ -334,7 +334,7 @@ async function syncNow(silent = false) {
     if (!serverDateTime) {
       try {
         const url = ensureHTTPS(
-          "https://worldtimeapi.org/api/timezone/Etc/UTC"
+          "https://worldtimeapi.org/api/timezone/Etc/UTC",
         );
         const controller = new AbortController();
         const id = setTimeout(() => controller.abort(), 3000);
@@ -379,7 +379,7 @@ async function syncNow(silent = false) {
     if (!serverDateTime) {
       try {
         const url = ensureHTTPS(
-          "https://timeapi.io/api/time/current/zone?timeZone=UTC"
+          "https://timeapi.io/api/time/current/zone?timeZone=UTC",
         );
         const controller = new AbortController();
         const id = setTimeout(() => controller.abort(), 3000);
@@ -425,13 +425,10 @@ async function syncNow(silent = false) {
       state.lastSync = localDateTime;
       const diff = Math.abs(offset);
 
-      if (diff < 1) {
+      if (diff < 0.999) {
         setStatus(`● Synced Perfectly`, "#00af7bff");
       } else {
-        setStatus(
-          `● Time diff: ${diff.toFixed(1)}s via ${usedMethod}`,
-          "#ff9800"
-        );
+        setStatus(`● Time Late: ${diff.toFixed(3)}s`, "#ff9800");
       }
     } else {
       throw new Error("All time servers failed to respond");
@@ -584,4 +581,3 @@ debugLog("Window initialized", {
     ? "disabled"
     : `${FIXED_WIDTH}x${FIXED_HEIGHT}`,
 });
-

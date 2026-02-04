@@ -447,10 +447,7 @@ async function syncNow(silent = false) {
       if (diff < 1) {
         setStatus("● Synced perfectly", "#00af7bff");
       } else {
-        setStatus(
-          `● Time diff: ${diff.toFixed(3)}s via ${usedMethod}`,
-          "#ff9800"
-        );
+        setStatus(`● Time Late: ${diff.toFixed(3)}s`, "#ff9800");
       }
     } else {
       throw new Error("All time servers failed to respond");
