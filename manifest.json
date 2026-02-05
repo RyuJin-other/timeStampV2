@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Time Sync - NTP Clock",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Synchronize and display accurate time from multiple NTP servers (NIST, Google, WorldTimeAPI). Perfect for time-sensitive tasks.",
   "author": "A.res.t",
   "homepage_url": "https://github.com/RyuJin-other/timeStampV2",
@@ -24,7 +24,7 @@
     "default_title": "Time Sync - NTP Clock"
   },
 
-  "permissions": ["storage","alarms"],
+  "permissions": ["storage", "action"],
 
   "host_permissions": [
     "https://worldtimeapi.org/*",
@@ -50,6 +50,3 @@
 
   "minimum_chrome_version": "88"
 }
-
-
-
