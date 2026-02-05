@@ -57,6 +57,14 @@ browserAPI.runtime.onInstalled.addListener((details) => {
   } else if (details.reason === "update") {
     console.log(`Updated from version ${details.previousVersion}`);
   }
+
+  // Apply theme icon on install/update
+  updateIconForTheme();
+});
+
+// Update icon saat extension start
+browserAPI.runtime.onStartup.addListener(() => {
+  updateIconForTheme();
 });
 
 // --- MESSAGE HANDLER ---
