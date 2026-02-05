@@ -11,7 +11,10 @@ time-sync-extension/
 ├── window.html           # Draggable floating window
 ├── background.js         # Service worker
 ├── icons/
-│   ├── src/icons/clock-24_.png       
+│   ├── src/icons/DarkMode/icon_16.png
+│   ├── src/icons/DarkMode/icon_32.png
+│   ├── src/icons/DarkMode/icon_64.png
+│   ├── src/icons/DarkMode/icon_128.png
 └── README.md            # This file
 ```
 
@@ -161,17 +164,12 @@ Jika belum punya icon, buat placeholder sederhana:
 | Chrome 88+ | ✅ Full support | Manifest V3 |
 | Edge 88+ | ✅ Full support | Chromium-based |
 | Brave | ✅ Full support | Chromium-based |
-| Firefox 109+ | ✅ Full support | Manifest V3 |
 | Opera | ✅ Full support | Chromium-based |
 
 ## 🚀 Future Features (Ideas)
 
 - [ ] Notification saat time difference > 1 detik
-- [ ] Dark mode toggle
 - [ ] Multiple timezone display
-- [ ] Sync history log
-- [ ] Export/import settings
-- [ ] Keyboard shortcuts
 
 ## 📄 License
 
