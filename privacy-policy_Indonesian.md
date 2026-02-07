@@ -36,6 +36,7 @@ Ekstensi ini menyimpan pengaturan berikut **HANYA SECARA LOKAL di perangkat Anda
 - **Preferensi Jendela:** Pengaturan tampilan untuk mode jendela terpisah (jika ada)
 
 **Penting:** Data ini:
+
 - Tidak pernah meninggalkan perangkat Anda
 - Tidak dikirimkan ke server manapun
 - Tidak dapat diakses oleh pengembang
@@ -55,6 +56,7 @@ Ekstensi melakukan permintaan jaringan **HANYA** untuk tujuan mengambil data wak
 ### Data yang Dikirim dalam Permintaan Jaringan
 
 Saat melakukan sinkronisasi waktu, ekstensi mengirim:
+
 - Header permintaan HTTP/HTTPS standar (diperlukan untuk komunikasi web)
 - Tidak ada informasi pribadi
 - Tidak ada pengenal pelacakan
@@ -63,6 +65,7 @@ Saat melakukan sinkronisasi waktu, ekstensi mengirim:
 ### Data yang Diterima
 
 Ekstensi menerima:
+
 - Informasi waktu UTC saat ini
 - Header respons server (termasuk cap waktu/tanggal)
 - Data respons HTTP standar
@@ -74,11 +77,13 @@ Semua data yang diterima digunakan hanya untuk menampilkan waktu yang akurat dan
 Ekstensi meminta izin berikut, yang digunakan secara eksklusif sebagaimana dijelaskan:
 
 ### 1. Izin Storage (Penyimpanan)
+
 - **Tujuan:** Untuk menyimpan preferensi Anda (server NTP, interval sinkronisasi) secara lokal di perangkat Anda
 - **Cakupan:** Hanya penyimpanan lokal
 - **Akses Data:** Pengaturan yang Anda konfigurasi dalam ekstensi
 
 ### 2. Host Permissions (Izin Host)
+
 Ekstensi memerlukan akses ke domain berikut untuk sinkronisasi waktu:
 
 - `https://worldtimeapi.org/*` - Layanan waktu WorldTimeAPI
@@ -87,6 +92,7 @@ Ekstensi memerlukan akses ke domain berikut untuk sinkronisasi waktu:
 - `https://www.nist.gov/*` - Layanan waktu NIST (National Institute of Standards and Technology)
 
 **Penting:** Izin ini digunakan HANYA untuk mengambil data waktu. Ekstensi tidak:
+
 - Mengakses konten dari situs web lain yang Anda kunjungi
 - Memodifikasi halaman web
 - Menyisipkan skrip ke situs lain
@@ -97,7 +103,7 @@ Ekstensi memerlukan akses ke domain berikut untuk sinkronisasi waktu:
 Ekstensi menggunakan layanan waktu eksternal untuk menyediakan sinkronisasi waktu yang akurat. Layanan tersebut adalah:
 
 - **WorldTimeAPI** - https://worldtimeapi.org
-- **TimeAPI.io** - https://timeapi.io  
+- **TimeAPI.io** - https://timeapi.io
 - **Google Public NTP** - Bagian dari layanan publik Google
 - **NIST Time Services** - Layanan waktu pemerintah AS
 
@@ -150,13 +156,13 @@ Kami percaya pada transparansi penuh:
 ✅ **Tidak ada iklan** - Ekstensi sepenuhnya bebas iklan  
 ✅ **Tidak ada monetisasi** - Kami tidak menjual data atau menampilkan iklan  
 ✅ **Open source** - Kode tersedia untuk ditinjau di repositori GitHub kami  
-✅ **Penyimpanan lokal saja** - Semua pengaturan tetap di perangkat Anda  
+✅ **Penyimpanan lokal saja** - Semua pengaturan tetap di perangkat Anda
 
 ## Informasi Kontak
 
 Jika Anda memiliki pertanyaan, kekhawatiran, atau permintaan terkait Kebijakan Privasi ini atau praktik privasi ekstensi, silakan hubungi kami:
 
-- **Email:** [Email kontak Anda - mohon perbarui ini]
+- **Email:** testvurn@gmail.com
 - **GitHub Issues:** https://github.com/RyuJin-other/timeStampV2/issues
 - **Pengembang:** A.res.t
 
