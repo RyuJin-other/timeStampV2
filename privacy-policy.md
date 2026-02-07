@@ -1,0 +1,38 @@
+PRIVACY POLICY for Time Sync - NTP Clock Extension
+
+Last Updated: December 18, 2024
+
+1. DATA COLLECTION
+We DO NOT collect, store, transmit, or share any personal information.
+
+2. LOCAL STORAGE
+Settings are stored LOCALLY on your device only:
+- NTP server preference
+- Auto-sync interval
+- Last sync timestamp
+
+This data NEVER leaves your device.
+
+3. NETWORK REQUESTS
+Only made for time synchronization to:
+- worldtimeapi.org
+- timeapi.io
+- nist.gov
+- google.com
+
+No personal data is sent.
+
+4. PERMISSIONS
+- storage: Save settings locally
+- host_permissions: Fetch time data only
+
+5. YOUR PRIVACY
+✅ No data collection
+✅ No tracking
+✅ No analytics
+✅ No ads
+✅ Settings stored locally only
+
+By using this extension, you consent to this policy.
+
+Contact: your-email@example.com
